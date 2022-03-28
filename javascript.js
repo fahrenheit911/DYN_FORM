@@ -28,7 +28,7 @@ let formDef2 =
   ];
 
 
-function makeForm() {
+function makeForm(FFF) {
 
   let form = document.createElement("FORM");
   form.id = "myForm";
@@ -37,8 +37,8 @@ function makeForm() {
 
   document.body.appendChild(form);
 
-  for (let f = 0; f < formDef1.length; f++) {
-    let formElm = formDef1[f];
+  for (let f = 0; f < FFF.length; f++) {
+    let formElm = FFF[f];
     switch (formElm.kind) {
 
       case 'longtext':
@@ -122,22 +122,22 @@ function makeForm() {
         inpCh.setAttribute('checked', 'true');
         labCh.appendChild(inpCh);
         form.appendChild(labCh);
+        let x5 = document.createElement("BR");
+        labCh.appendChild(x5);
         break;
 
       case 'memo': document.write
         let labAr = document.createElement("LABEL");
-        let ppp = document.createElement("P");
-        ppp.innerHTML = formElm.label;
-        labAr.appendChild(ppp);
+        labAr.innerHTML = formElm.label + '<br/>';
         let txAr = document.createElement("TEXTAREA");
         txAr.type = 'text';
         txAr.name = formElm.name;
         labAr.appendChild(txAr);
         form.appendChild(labAr);
-        let x5 = document.createElement("BR");
-        labAr.appendChild(x5);
+        let x6 = document.createElement("BR");
+        labAr.appendChild(x6);
         break;
-      //<input type="submit" value="Поиск">
+
       case 'submit':
         let inpSb = document.createElement("INPUT");
         inpSb.type = 'submit';
@@ -149,6 +149,10 @@ function makeForm() {
     }
 
   }
+  let x6 = document.createElement("BR");
+  document.body.appendChild(x6);
+
+
 
 }
 
