@@ -1,50 +1,24 @@
-function addForm1() {
-  let formDef1 =
-    [
-      { label: 'Название сайта:', kind: 'longtext', name: 'sitename' },
-      { label: 'URL сайта:', kind: 'longtext', name: 'siteurl' },
-      { label: 'Посетителей в сутки:', kind: 'number', name: 'visitors' },
-      { label: 'E-mail для связи:', kind: 'shorttext', name: 'email' },
-      {
-        label: 'Рубрика каталога:', kind: 'combo', name: 'division',
-        variants: [{ text: 'здоровье', value: 1 }, { text: 'домашний уют', value: 2 }, { text: 'бытовая техника', value: 3 }]
-      },
-      {
-        label: 'Размещение:', kind: 'radio', name: 'payment',
-        variants: [{ text: 'бесплатное', value: 1 }, { text: 'платное', value: 2 }, { text: 'VIP', value: 3 }]
-      },
-      { label: 'Разрешить отзывы:', kind: 'check', name: 'votes' },
-      { label: 'Описание сайта:', kind: 'memo', name: 'description' },
-      { caption: 'Опубликовать', kind: 'submit' },
-    ];
-
-    for (let f=0; f<formDef1; f++){
-      let formElm=formDef1[f];
-      switch (formElm.kind) {
-        case 'longtext':
-          document.createElement.formElm.label()
-          
-          break;
-      
-        default:
-          break;
-      }
-
-    }
+let formDef1 =
+  [
+    { label: 'Название сайта:', kind: 'longtext', name: 'sitename' },
+    { label: 'URL сайта:', kind: 'longtext', name: 'siteurl' },
+    { label: 'Посетителей в сутки:', kind: 'number', name: 'visitors' },
+    { label: 'E-mail для связи:', kind: 'shorttext', name: 'email' },
+    {
+      label: 'Рубрика каталога:', kind: 'combo', name: 'division',
+      variants: [{ text: 'здоровье', value: 1 }, { text: 'домашний уют', value: 2 }, { text: 'бытовая техника', value: 3 }]
+    },
+    {
+      label: 'Размещение:', kind: 'radio', name: 'payment',
+      variants: [{ text: 'бесплатное', value: 1 }, { text: 'платное', value: 2 }, { text: 'VIP', value: 3 }]
+    },
+    { label: 'Разрешить отзывы:', kind: 'check', name: 'votes' },
+    { label: 'Описание сайта:', kind: 'memo', name: 'description' },
+    { caption: 'Опубликовать', kind: 'submit' },
+  ];
 
 
-  let x = document.createElement("FORM");
-  x.setAttribute("id", "myForm");
-  document.body.appendChild(x);
-
-  var y = document.createElement("INPUT");
-  y.setAttribute("type", "text");
-  y.setAttribute("value", "Donald");
-  document.getElementById("myForm").appendChild(y);
-
-}
-
-var formDef2 =
+let formDef2 =
   [
     { label: 'Фамилия:', kind: 'longtext', name: 'lastname' },
     { label: 'Имя:', kind: 'longtext', name: 'firstname' },
@@ -52,3 +26,132 @@ var formDef2 =
     { label: 'Возраст:', kind: 'number', name: 'age' },
     { caption: 'Зарегистрироваться', kind: 'submit' },
   ];
+
+
+function makeForm() {
+
+  let form = document.createElement("FORM");
+  form.id = "myForm";
+  form.action = "https://fe.it-academy.by/TestForm.php";
+  form.metod = "get";
+
+  document.body.appendChild(form);
+
+  for (let f = 0; f < formDef1.length; f++) {
+    let formElm = formDef1[f];
+    switch (formElm.kind) {
+
+      case 'longtext':
+        let labTx = document.createElement("LABEL");
+        labTx.innerHTML = formElm.label;
+        let inpTx = document.createElement("INPUT");
+        inpTx.type = "text";
+        inpTx.name = formElm.name;
+        labTx.appendChild(inpTx);
+        form.appendChild(labTx);
+        let x = document.createElement("BR");
+        labTx.appendChild(x);
+        break;
+
+      case 'number':
+        let labNb = document.createElement("LABEL");
+        labNb.innerHTML = formElm.label;
+        let inpNb = document.createElement("INPUT");
+        inpNb.type = "text";
+        inpNb.name = formElm.name;
+        labNb.appendChild(inpNb);
+        form.appendChild(labNb);
+        let x1 = document.createElement("BR");
+        labNb.appendChild(x1);
+        break;
+
+      case 'shorttext':
+        let labEm = document.createElement("LABEL");
+        labEm.innerHTML = formElm.label;
+        let inpEm = document.createElement("INPUT");
+        inpEm.type = 'text';
+        inpEm.name = formElm.name;
+        labEm.appendChild(inpEm);
+        form.appendChild(labEm);
+        let x2 = document.createElement("BR");
+        labEm.appendChild(x2);
+        break;
+
+      case 'combo':
+        let labSl = document.createElement("LABEL");
+        labSl.innerHTML = formElm.label;
+        let sel = document.createElement("SELECT");
+        sel.name = formElm.name;
+        for (let o = 0; o < formElm.variants.length; o++) {
+          let v = formElm.variants[o];
+          let opt = document.createElement("OPTION");
+          opt.innerHTML = v.text;
+          opt.value = v.value;
+          opt.setAttribute('selected', 'true');
+          sel.appendChild(opt);
+        }
+        labSl.appendChild(sel);
+        form.appendChild(labSl);
+        let x3 = document.createElement("BR");
+        labSl.appendChild(x3);
+        break;
+
+      case 'radio':
+        let labRd = document.createElement("LABEL");
+        labRd.innerHTML = formElm.label;
+        for (let r = 0; r < formElm.variants.length; r++) {
+          let w = formElm.variants[r];
+          let inpRd = document.createElement("INPUT");
+          inpRd.type = 'radio';
+          inpRd.name = formElm.name;
+          inpRd.innerHTML = w.text;
+          inpRd.value = w.value;
+          labRd.appendChild(inpRd);
+        }
+        form.appendChild(labRd);
+        let x4 = document.createElement("BR");
+        labRd.appendChild(x4);
+        break;
+
+      case 'check':
+        let labCh = document.createElement("LABEL");
+        labCh.innerHTML = formElm.label;
+        let inpCh = document.createElement("INPUT");
+        inpCh.type = 'checkbox';
+        inpCh.name = formElm.name;
+        inpCh.setAttribute('checked', 'true');
+        labCh.appendChild(inpCh);
+        form.appendChild(labCh);
+        break;
+
+      case 'memo': document.write
+        let labAr = document.createElement("LABEL");
+        let ppp = document.createElement("P");
+        ppp.innerHTML = formElm.label;
+        labAr.appendChild(ppp);
+        let txAr = document.createElement("TEXTAREA");
+        txAr.type = 'text';
+        txAr.name = formElm.name;
+        labAr.appendChild(txAr);
+        form.appendChild(labAr);
+        let x5 = document.createElement("BR");
+        labAr.appendChild(x5);
+        break;
+      //<input type="submit" value="Поиск">
+      case 'submit':
+        let inpSb = document.createElement("INPUT");
+        inpSb.type = 'submit';
+        inpSb.value = formElm.caption;
+        form.appendChild(inpSb);
+        break;
+      default:
+
+    }
+
+  }
+
+}
+
+//makeForm(formDef1);
+makeForm(formDef2);
+
