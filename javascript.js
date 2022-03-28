@@ -152,6 +152,6 @@ function makeForm() {
 
 }
 
-//makeForm(formDef1);
+makeForm(formDef1);
 makeForm(formDef2);
 
