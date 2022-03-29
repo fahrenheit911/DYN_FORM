@@ -101,14 +101,16 @@ function makeForm(FFF) {
         labRd.innerHTML = formElm.label;
         for (let r = 0; r < formElm.variants.length; r++) {
           let w = formElm.variants[r];
+          let lbl = document.createElement("LABEL");
           let inpRd = document.createElement("INPUT");
           inpRd.type = 'radio';
           inpRd.name = formElm.name;
           let spn = document.createElement('SPAN');
           spn.innerHTML = w.text;
-          inpRd.appendChild(spn);
           inpRd.value = w.value;
-          labRd.appendChild(inpRd);
+          lbl.appendChild(inpRd);
+          lbl.appendChild(spn);
+          labRd.appendChild(lbl);
         }
         form.appendChild(labRd);
         let x4 = document.createElement("BR");
