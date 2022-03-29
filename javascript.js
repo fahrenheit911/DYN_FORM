@@ -104,8 +104,6 @@ function makeForm(FFF) {
           let inpRd = document.createElement("INPUT");
           inpRd.type = 'radio';
           inpRd.name = formElm.name;
-          //inpRd.after(c);
-          //inpRd.insertAdjacentText('afterend', w.t''.createElement(elem);
           let spn = document.createElement('SPAN');
           spn.innerHTML = w.text;
           inpRd.appendChild(spn);
