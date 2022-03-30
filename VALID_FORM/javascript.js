@@ -3,7 +3,7 @@ let formDef1 =
 		{ label: 'Разработчики: ', kind: 'longtext', name: 'devs' },
 		{ label: 'Название сайта: ', kind: 'longtext', name: 'sitename' },
 		{ label: 'URL сайта: ', kind: 'longtext', name: 'siteurl' },
-		{ label: 'Дата запуска сайта: ', kind: 'number', name: 'start' },
+		{ label: 'Дата запуска сайта: ', kind: 'date', name: 'start' },
 		{ label: 'Посетителей в сутки: ', kind: 'number', name: 'visitors' },
 		{ label: 'E-mail для связи: ', kind: 'shorttext', name: 'email' },
 		{
@@ -42,6 +42,18 @@ function makeForm(FFF) {
 				form.appendChild(labTx);
 				let x = document.createElement("BR");
 				labTx.appendChild(x);
+				break;
+
+			case 'date':
+				let labDt = document.createElement("LABEL");
+				labDt.innerHTML = formElm.label;
+				let inpDt = document.createElement("INPUT");
+				inpDt.type = "date";
+				inpDt.name = formElm.name;
+				labDt.appendChild(inpDt);
+				form.appendChild(labDt);
+				let xx = document.createElement("BR");
+				labDt.appendChild(xx);
 				break;
 
 			case 'number':
