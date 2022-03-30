@@ -130,7 +130,7 @@ function makeForm(FFF) {
         labCh.appendChild(x5);
         break;
 
-      case 'memo': document.write
+      case 'memo': 
         let labAr = document.createElement("LABEL");
         labAr.innerHTML = formElm.label + '<br/>';
         let txAr = document.createElement("TEXTAREA");
