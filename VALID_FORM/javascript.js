@@ -156,6 +156,52 @@ function makeForm(FFF) {
 	}
 	let x6 = document.createElement("BR");
 	document.body.appendChild(x6);
+
+
+	form.addEventListener('submit', function (event) {
+		event.preventDefault();
+		console.log('clicked on validate');
+	})
+
+
+	let ipt = document.getElementsByTagName("INPUT")[0];
+	let lb = document.getElementsByTagName("LABEL");
+	ipt.addEventListener("blur", function (event) {
+		if (this === "") {
+			let spn = document.createElement("SPAN");
+			spn.innerHTML = '!!!alarm!!!';
+			lb.appendChild(spn);
+			//lbl.appendChild(this);
+			//lbl.appendChild(spn);
+			//let lbl = document.getElementsByTagName('LABEL');
+			//lbl.appendChild(this);
+			//lbl.appendChild(spn);
+			//this.focus();
+		} else {
+			spn.innerHTML = '';
+		}
+	}, true);
+
 }
+
+function myFunction() {
+	var x = document.getElementById("myDate").value;
+	document.getElementById("demo").innerHTML = x;
+}
+
+
+/*h.addEventListener("focus", function (event) {
+	event.target.style.background = "pink";
+}, true);
+h.addEventListener("blur", function (event) {
+	event.target.style.background = "";
+}, true);*/
+
+
+/*form.addEventListener('submit', function (event) {
+	event.preventDefault()
+	alert('текст: ' + inpTx.value);
+})*/
+
 
 makeForm(formDef1);
