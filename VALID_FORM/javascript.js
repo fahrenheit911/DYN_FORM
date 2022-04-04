@@ -39,6 +39,9 @@ function makeForm(FFF) {
 				inpTx.type = "text";
 				inpTx.name = formElm.name;
 				labTx.appendChild(inpTx);
+				let spn = document.createElement("SPAN");
+				spn.id = "alarm1";
+				labTx.appendChild(spn);
 				form.appendChild(labTx);
 				let x = document.createElement("BR");
 				labTx.appendChild(x);
@@ -160,33 +163,23 @@ function makeForm(FFF) {
 
 	form.addEventListener('submit', function (event) {
 		event.preventDefault();
-		console.log('clicked on validate');
 	})
 
 
-	let ipt = document.getElementsByTagName("INPUT")[0];
-	let lb = document.getElementsByTagName("LABEL");
-	ipt.addEventListener("blur", function (event) {
-		if (this === "") {
-			let spn = document.createElement("SPAN");
-			spn.innerHTML = '!!!alarm!!!';
-			lb.appendChild(spn);
-			//lbl.appendChild(this);
-			//lbl.appendChild(spn);
-			//let lbl = document.getElementsByTagName('LABEL');
-			//lbl.appendChild(this);
-			//lbl.appendChild(spn);
-			//this.focus();
+	let inp = document.getElementsByTagName("INPUT")[0];
+	//let inp = document.querySelectorAll("input.type=text");
+	inp.addEventListener("blur", function (eo) {
+		eo = eo || window.event;
+		let inpValue = document.getElementsByTagName("INPUT")[0].value;
+		//let inpValue = document.querySelectorAll("input[type=text]").value;
+		if (inpValue === "") {
+			document.getElementById('alarm1').innerHTML = 'поле не заполнено';
+			document.getElementById('alarm1').style.color = "red";
 		} else {
-			spn.innerHTML = '';
+			document.getElementById('alarm1').innerHTML = '';
 		}
 	}, true);
 
-}
-
-function myFunction() {
-	var x = document.getElementById("myDate").value;
-	document.getElementById("demo").innerHTML = x;
 }
 
 
