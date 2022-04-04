@@ -166,12 +166,12 @@ function makeForm(FFF) {
 	})
 
 
-	let inp = document.getElementsByTagName("INPUT")[0];
-	//let inp = document.querySelectorAll("input.type=text");
+	//let inp = document.getElementsByTagName("INPUT")[0];
+	let inp = document.querySelectorAll("input[type=text]");
 	inp.addEventListener("blur", function (eo) {
 		eo = eo || window.event;
-		let inpValue = document.getElementsByTagName("INPUT")[0].value;
-		//let inpValue = document.querySelectorAll("input[type=text]").value;
+		//let inpValue = document.getElementsByTagName("INPUT")[0].value;
+		let inpValue = document.querySelectorAll("input[type=text]").value;
 		if (inpValue === "") {
 			document.getElementById('alarm1').innerHTML = 'поле не заполнено';
 			document.getElementById('alarm1').style.color = "red";
