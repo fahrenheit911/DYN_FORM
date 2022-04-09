@@ -40,7 +40,7 @@ function makeForm(FFF) {
 				inpTx.name = formElm.name;
 				labTx.appendChild(inpTx);
 				let spn1 = document.createElement("SPAN");
-				spn1.id = "alarm";
+				spn1.id = formElm.name + "err";
 				labTx.appendChild(spn1);
 				form.appendChild(labTx);
 				let x = document.createElement("BR");
@@ -147,6 +147,9 @@ function makeForm(FFF) {
 				inpCh.name = formElm.name;
 				inpCh.setAttribute('checked', 'true');
 				labCh.appendChild(inpCh);
+				let spn4 = document.createElement("SPAN");
+				spn4.id = "alarm4";
+				labCh.appendChild(spn4);
 				form.appendChild(labCh);
 				let x5 = document.createElement("BR");
 				labCh.appendChild(x5);
@@ -180,79 +183,86 @@ function makeForm(FFF) {
 	document.body.appendChild(x6);
 
 	//вызов всех валидаций
-	form.addEventListener('submit', function (eo) {
+	form.addEventListener('submit', formSubmit, true);
+	function formSubmit(eo) {
 		eo = eo || window.event;
-
-		validDevs();
-		validSiteName();
-		validSiteUrl();
-		validData();
-		valueVisit();
-		validEmail();
-		validSelect();
-		validRadio();
-		validText();
-
-		eo.preventDefault();
-	})
-
+		let countErr = 0;
+		countErr += validDevs(!countErr);
+		countErr += validSiteName(!countErr);
+		countErr += validSiteUrl(!countErr);
+		countErr += validData(!countErr);
+		countErr += valueVisit(!countErr);
+		countErr += validEmail(!countErr);
+		countErr += validSelect(!countErr);
+		countErr += validRadio(!countErr);
+		countErr += validCheck(!countErr);
+		countErr += validText(!countErr);
+		if (countErr)
+			eo.preventDefault();
+	}
 
 	//Валидация input разработчики	
 	let inpDevs = document.getElementsByName("devs")[0];
-	inpDevs.addEventListener("blur", validDevs, true);
-	function validDevs(eo) {
-		eo = eo || window.event;
+	inpDevs.addEventListener("blur", () => validDevs(false), true);
+	function validDevs(focusOnError) {
+		//eo = eo || window.event;
 		let inpValue = inpDevs.value;
 		let countErr = 0;
 		if (inpValue === "") {
-			document.getElementById('alarm').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
-			document.getElementById('alarm').style.color = "red";
-			//countErr++;
+			document.getElementById('devserr').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
+			document.getElementById('devserr').style.color = "red";
+			countErr++;
+			if (focusOnError)
+				inpDevs.focus();
 		} else {
-			document.getElementById('alarm').innerHTML = '';
+			document.getElementById('devserr').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 	//Валидация input название сайта
 	let inpSiteName = document.getElementsByName("sitename")[0];
-	inpSiteName.addEventListener("blur", validSiteName, true);
-	function validSiteName(eo) {
-		eo = eo || window.event;
+	inpSiteName.addEventListener("blur", () => validSiteName(false), true);
+	function validSiteName(focusOnError) {
+		//eo = eo || window.event;
 		let inpValue = inpSiteName.value;
 		let countErr = 0;
 		if (inpValue === "") {
-			document.getElementById('alarm').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
-			document.getElementById('alarm').style.color = "red";
-			//countErr++;
+			document.getElementById('sitenameerr').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
+			document.getElementById('sitenameerr').style.color = "red";
+			countErr++;
+			if (focusOnError)
+				inpSiteName.focus();
 		} else {
-			document.getElementById('alarm').innerHTML = '';
+			document.getElementById('sitenameerr').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 	//Валидация input url сайта
 	let inpUrl = document.getElementsByName("siteurl")[0];
-	inpUrl.addEventListener("blur", validSiteUrl, true);
-	function validSiteUrl(eo) {
-		eo = eo || window.event;
+	inpUrl.addEventListener("blur", () => validSiteUrl(false), true);
+	function validSiteUrl(focusOnError) {
+		//eo = eo || window.event;
 		let inpValue = inpUrl.value;
 		let countErr = 0;
 		if (inpValue === "") {
-			document.getElementById('alarm').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
-			document.getElementById('alarm').style.color = "red";
-			//countErr++;
+			document.getElementById('siteurlerr').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
+			document.getElementById('siteurlerr').style.color = "red";
+			countErr++;
+			if (focusOnError)
+				inpUrl.focus();
 		} else {
-			document.getElementById('alarm').innerHTML = '';
+			document.getElementById('siteurlerr').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 	//Валидация input дата запуска
 	let inpData = document.querySelector('input[type="date"]');
-	inpData.addEventListener("blur", validData, true);
-	function validData(eo) {
-		eo = eo || window.event;
+	inpData.addEventListener("blur", () => validData(false), true);
+	function validData(focusOnError) {
+		//eo = eo || window.event;
 		let inpValue = inpData.value;
 		let nowaday = inpData.min;
 		let countErr = 0;
@@ -262,36 +272,40 @@ function makeForm(FFF) {
 				document.getElementById('alarm2').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
 				document.getElementById('alarm2').style.color = "red";
 			}
-			//countErr++;
+			countErr++;
+			if (focusOnError)
+				inpData.focus();
 		} else {
 			document.getElementById('alarm2').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 	//Валидация input число посетителей
 	let numberControl = document.getElementsByName("visitors")[0];
-	numberControl.addEventListener("blur", valueVisit, true);
-	function valueVisit(eo) {
-		eo = eo || window.event;
+	numberControl.addEventListener("blur", () => valueVisit(false), true);
+	function valueVisit(focusOnError) {
+		//eo = eo || window.event;
 		let numberValue = numberControl.value;
 		let numb = Number(numberValue);
 		let countErr = 0;
 		if (numberValue != numb || numberValue === "") {
 			document.getElementById('alarm3').innerHTML = '   Введите число посетителей';
 			document.getElementById('alarm3').style.color = "red";
-			//countErr++;
+			countErr++;
+			if (focusOnError)
+				numberControl.focus();
 		} else {
 			document.getElementById('alarm3').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 	//Валидация input email
 	let emailControl = document.getElementsByName("email")[0];
-	emailControl.addEventListener("blur", validEmail, true);
-	function validEmail(eo) {
-		eo = eo || window.event;
+	emailControl.addEventListener("blur", () => validEmail(false), true);
+	function validEmail(focusOnError) {
+		//eo = eo || window.event;
 		let emailValue = emailControl.value;
 		let e = emailValue.indexOf('@');
 		let ee = emailValue.indexOf('.');
@@ -299,38 +313,42 @@ function makeForm(FFF) {
 		if (e < 1 && ee < 1) {
 			document.getElementById('alarm5').innerHTML = "  Пожалуйста, введите корректный email-адрес (вы ввели данные в неправильном формате)";
 			document.getElementById('alarm5').style.color = "red";
-			//countErr++;
+			countErr++;
+			if (focusOnError)
+				emailControl.focus();
 		} else {
 			document.getElementById('alarm5').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 	//Валидация input select
 	let selectControl = document.getElementsByTagName("SELECT")[0];
-	selectControl.addEventListener("blur", validSelect, true);
-	function validSelect(eo) {
-		eo = eo || window.event;
+	selectControl.addEventListener("blur", () => validSelect(false), true);
+	function validSelect(focusOnError) {
+		//eo = eo || window.event;
 		var selectedValue = selectControl.value;
 		let countErr = 0;
 		if (selectedValue == "") {
 			document.getElementById('alarm6').innerHTML = "  Сделайте свой выбор, укажите рубрику";
 			document.getElementById('alarm6').style.color = "red";
-			//countErr++;
+			countErr++;
+			if (focusOnError)
+				selectControl.focus();
 		} else {
 			document.getElementById('alarm6').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 	//Валидация input radio
 	let radioControl = document.querySelectorAll("input[type=radio]");
 	for (let i = 0; i < radioControl.length; i++) {
 		let rad = radioControl[i];
-		rad.addEventListener("blur", validRadio, true);
+		rad.addEventListener("blur", () => validRadio(), true);
 	}
-	function validRadio(eo) {
-		eo = eo || window.event;
+	function validRadio(focusOnError) {
+		//eo = eo || window.event;
 		let radios = document.querySelectorAll("input[type=radio]");
 		let radValid = false;
 		let i = 0;
@@ -345,26 +363,48 @@ function makeForm(FFF) {
 		if (!radValid) {
 			document.getElementById('alarm7').innerHTML = "  Сделайте свой выбор, укажите вариант размещения";
 			document.getElementById('alarm7').style.color = "red";
-			//countErr++
+			countErr++;
+			if (focusOnError)
+				radioControl.focus();
 		}
-		//return countErr;
+		return countErr;
+	}
+
+	//Валидация input checkbox	
+	let inpCheck = document.getElementsByName("votes")[0];
+	inpCheck.addEventListener("blur", () => validCheck(true), true);
+	function validCheck(focusOnError) {
+		//eo = eo || window.event;
+		let countErr = 0;
+		if (inpCheck.checked === true) {
+			document.getElementById('alarm4').innerHTML = "  Отзывы недоступны, снимите галочку";
+			document.getElementById('alarm4').style.color = "red";
+			countErr++;
+			if (focusOnError)
+				inpCheck.focus();
+		} else {
+			document.getElementById('alarm4').innerHTML = '';
+		}
+		return countErr;
 	}
 
 	//Валидация input textarea описание сайта
-	let txtar = document.getElementsByTagName("TEXTAREA")[0];
-	txtar.addEventListener("blur", validText, true);
-	function validText(eo) {
-		eo = eo || window.event;
-		let txtValue = txtar.value;
+	let txtarControl = document.getElementsByTagName("TEXTAREA")[0];
+	txtarControl.addEventListener("blur", () => validText(false), true);
+	function validText(focusOnError) {
+		//eo = eo || window.event;
+		let txtValue = txtarControl.value;
 		let countErr = 0;
 		if (txtValue === "") {
 			document.getElementById('alarm9').innerHTML = "  Обязательное поле (Вы не можете оставить поле пустым)";
 			document.getElementById('alarm9').style.color = "red";
-			//countErr++;
+			countErr++;
+			if (focusOnError)
+				txtarControl.focus();
 		} else {
 			document.getElementById('alarm9').innerHTML = '';
 		}
-		//return countErr;
+		return countErr;
 	}
 
 }
