@@ -347,7 +347,7 @@ function makeForm(FFF) {
 		let rad = radioControl[i];
 		rad.addEventListener("blur", () => validRadio(), true);
 	}
-	function validRadio(focusOnError) {
+	function validRadio() {
 		//eo = eo || window.event;
 		let radios = document.querySelectorAll("input[type=radio]");
 		let radValid = false;
@@ -364,8 +364,7 @@ function makeForm(FFF) {
 			document.getElementById('alarm7').innerHTML = "  Сделайте свой выбор, укажите вариант размещения";
 			document.getElementById('alarm7').style.color = "red";
 			countErr++;
-			if (focusOnError)
-				radioControl.focus();
+
 		}
 		return countErr;
 	}
