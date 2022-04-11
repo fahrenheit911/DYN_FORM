@@ -104,9 +104,7 @@ function makeForm(FFF) {
 					let opt = document.createElement("OPTION");
 					opt.innerHTML = v.text;
 					opt.value = v.value;
-					//opt.setAttribute('selected', 'true');
 					sel.appendChild(opt);
-					//pt[1].setAttribute("disabled", "disabled");
 				}
 				labSl.appendChild(sel);
 				let spn6 = document.createElement("SPAN");
@@ -145,7 +143,7 @@ function makeForm(FFF) {
 				let inpCh = document.createElement("INPUT");
 				inpCh.type = 'checkbox';
 				inpCh.name = formElm.name;
-				inpCh.setAttribute('checked', 'true');
+				//inpCh.setAttribute('checked', 'false');
 				labCh.appendChild(inpCh);
 				let spn4 = document.createElement("SPAN");
 				spn4.id = "alarm4";
@@ -205,7 +203,6 @@ function makeForm(FFF) {
 	let inpDevs = document.getElementsByName("devs")[0];
 	inpDevs.addEventListener("blur", () => validDevs(false), true);
 	function validDevs(focusOnError) {
-		//eo = eo || window.event;
 		let inpValue = inpDevs.value;
 		let countErr = 0;
 		if (inpValue === "") {
@@ -224,7 +221,6 @@ function makeForm(FFF) {
 	let inpSiteName = document.getElementsByName("sitename")[0];
 	inpSiteName.addEventListener("blur", () => validSiteName(false), true);
 	function validSiteName(focusOnError) {
-		//eo = eo || window.event;
 		let inpValue = inpSiteName.value;
 		let countErr = 0;
 		if (inpValue === "") {
@@ -243,7 +239,6 @@ function makeForm(FFF) {
 	let inpUrl = document.getElementsByName("siteurl")[0];
 	inpUrl.addEventListener("blur", () => validSiteUrl(false), true);
 	function validSiteUrl(focusOnError) {
-		//eo = eo || window.event;
 		let inpValue = inpUrl.value;
 		let countErr = 0;
 		if (inpValue === "") {
@@ -262,7 +257,6 @@ function makeForm(FFF) {
 	let inpData = document.querySelector('input[type="date"]');
 	inpData.addEventListener("blur", () => validData(false), true);
 	function validData(focusOnError) {
-		//eo = eo || window.event;
 		let inpValue = inpData.value;
 		let nowaday = inpData.min;
 		let countErr = 0;
@@ -285,7 +279,6 @@ function makeForm(FFF) {
 	let numberControl = document.getElementsByName("visitors")[0];
 	numberControl.addEventListener("blur", () => valueVisit(false), true);
 	function valueVisit(focusOnError) {
-		//eo = eo || window.event;
 		let numberValue = numberControl.value;
 		let numb = Number(numberValue);
 		let countErr = 0;
@@ -305,7 +298,6 @@ function makeForm(FFF) {
 	let emailControl = document.getElementsByName("email")[0];
 	emailControl.addEventListener("blur", () => validEmail(false), true);
 	function validEmail(focusOnError) {
-		//eo = eo || window.event;
 		let emailValue = emailControl.value;
 		let e = emailValue.indexOf('@');
 		let ee = emailValue.indexOf('.');
@@ -324,19 +316,21 @@ function makeForm(FFF) {
 
 	//Валидация input select
 	let selectControl = document.getElementsByTagName("SELECT")[0];
+	selectControl.addEventListener("change", () => validSelect(false), true);
 	selectControl.addEventListener("blur", () => validSelect(false), true);
 	function validSelect(focusOnError) {
-		//eo = eo || window.event;
 		var selectedValue = selectControl.value;
 		let countErr = 0;
-		if (selectedValue == "") {
-			document.getElementById('alarm6').innerHTML = "  Сделайте свой выбор, укажите рубрику";
+		if (selectedValue == '') {
+			document.getElementById('alarm6').innerHTML = "  Данной рубрики не существует. Пожалуйста, сделайте свой выбор.";
 			document.getElementById('alarm6').style.color = "red";
 			countErr++;
 			if (focusOnError)
 				selectControl.focus();
 		} else {
 			document.getElementById('alarm6').innerHTML = '';
+
+
 		}
 		return countErr;
 	}
@@ -346,17 +340,22 @@ function makeForm(FFF) {
 	for (let i = 0; i < radioControl.length; i++) {
 		let rad = radioControl[i];
 		rad.addEventListener("blur", () => validRadio(), true);
+		rad.addEventListener("change", () => validRadio(), true);
 	}
 	function validRadio() {
-		//eo = eo || window.event;
 		let radios = document.querySelectorAll("input[type=radio]");
 		let radValid = false;
 		let i = 0;
 		let countErr = 0;
 		while (!radValid && i < radios.length) {
-			if (radios[i].checked) {
+			if (radios[i].checked == true) {
 				radValid = true;
 				document.getElementById('alarm7').innerHTML = " ";
+				if (radios[i].value == '3') {
+					document.getElementById('alarm7').innerHTML = "  VIP нельзя";
+					document.getElementById('alarm7').style.color = "red";
+					countErr++;
+				}
 			}
 			i++;
 		}
@@ -364,19 +363,17 @@ function makeForm(FFF) {
 			document.getElementById('alarm7').innerHTML = "  Сделайте свой выбор, укажите вариант размещения";
 			document.getElementById('alarm7').style.color = "red";
 			countErr++;
-
 		}
 		return countErr;
 	}
 
 	//Валидация input checkbox	
 	let inpCheck = document.getElementsByName("votes")[0];
-	inpCheck.addEventListener("blur", () => validCheck(true), true);
+	inpCheck.addEventListener("change", () => validCheck(true), true);
 	function validCheck(focusOnError) {
-		//eo = eo || window.event;
 		let countErr = 0;
 		if (inpCheck.checked === true) {
-			document.getElementById('alarm4').innerHTML = "  Отзывы недоступны, снимите галочку";
+			document.getElementById('alarm4').innerHTML = "  Отзывы временно отключены администрацией сайта";
 			document.getElementById('alarm4').style.color = "red";
 			countErr++;
 			if (focusOnError)
@@ -391,7 +388,6 @@ function makeForm(FFF) {
 	let txtarControl = document.getElementsByTagName("TEXTAREA")[0];
 	txtarControl.addEventListener("blur", () => validText(false), true);
 	function validText(focusOnError) {
-		//eo = eo || window.event;
 		let txtValue = txtarControl.value;
 		let countErr = 0;
 		if (txtValue === "") {
@@ -405,7 +401,9 @@ function makeForm(FFF) {
 		}
 		return countErr;
 	}
-
 }
 
+
+
 makeForm(formDef1);
+
