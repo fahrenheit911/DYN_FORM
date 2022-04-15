@@ -40,12 +40,14 @@ if ((diam < 200) || (diam > 800)) {
 			circleSmall.style.width = miniSize + "px";
 			circleSmall.style.height = miniSize + "px";
 			circleSmall.style.borderRadius = '50%';
+			circleSmall.style.textAlign = 'center';
 			circleSmall.style.backgroundColor = 'RGB(255 216 0)';
 			let circleSmallCentreX = circleSmall.offsetLeft + circleSmall.offsetWidth / 2;
 			let circleSmallCentreY = circleSmall.offsetTop + circleSmall.offsetHeight / 2;
 
 			let span = document.createElement('span');
 			circleSmall.appendChild(span);
+			span.innerHTML = i + 1;
 			circleSmall.style.left = Math.round(circleBigCentreX - circleBigCentreX + radius - (miniSize / 2)) + ((radius - miniSize / 2) * Math.sin(angle)) + 'px';//Math.round(circleBigCentreX - circleBigCentreX + radius - (miniSize / 2)) + 'px';
 			circleSmall.style.top = Math.round(circleBigCentreY - circleBigCentreY + radius - (miniSize / 2)) + ((radius - miniSize / 2) * Math.cos(angle)) + 'px';//Math.round(circleBigCentreY - circleBigCentreY + (miniSize / 2)) + 'px';
 
