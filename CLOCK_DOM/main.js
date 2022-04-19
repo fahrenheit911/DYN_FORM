@@ -1,6 +1,5 @@
 let inp = document.getElementById("size clock");
 
-
 function addClock() {
 
 	let diam = inp.value;
@@ -9,6 +8,11 @@ function addClock() {
 	let mainSize = diam;
 	let miniSize = diam * 0.1;
 	let radius = diam / 2;
+
+	if (diam < 200 || diam > 800) {
+		alert('alarm');
+		btn.preventDefault()
+	}
 
 	let circleBig = document.createElement('div');
 	document.body.appendChild(circleBig);
@@ -111,13 +115,6 @@ function addClock() {
 	digitalClock.style.marginTop = '25%';
 	digitalClock.style.fontSize = miniSize * 0.9 + 'px';
 
-	window.setInterval(updateTime, 0);
-	function updateTime() {
-		let t = new Date();
-		document.getElementById('clock').innerHTML = t.toLocaleTimeString();
-		TTT();
-	};
-
 	function TTT() {
 		let d = new Date();
 		let dg = 6;
@@ -128,6 +125,13 @@ function addClock() {
 		hourHand.style.transform = `rotate(${hour}deg)`;
 		minuteHand.style.transform = `rotate(${min}deg)`;
 		secondHand.style.transform = `rotate(${sec}deg)`;
+	};
+
+	window.setInterval(updateTime, 0);
+	function updateTime() {
+		let t = new Date();
+		document.getElementById('clock').innerHTML = t.toLocaleTimeString();
+		TTT();
 	};
 
 	let btn = document.getElementById('btn');
