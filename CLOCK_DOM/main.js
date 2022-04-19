@@ -24,7 +24,7 @@ function addClock() {
 	let circleBigCentreY = circleBig.offsetTop + circleBig.offsetHeight / 2;
 
 	let delta = Math.PI * 2 / hours;
-	let angle = 0;
+	let angle = delta;
 
 	for (let i = 1; i <= hours; i++) {
 
@@ -35,14 +35,20 @@ function addClock() {
 		circleSmall.style.width = miniSize + "px";
 		circleSmall.style.height = miniSize + "px";
 		circleSmall.style.borderRadius = '50%';
-		circleSmall.style.textAlign = 'center';
 		circleSmall.style.backgroundColor = 'RGB(255 216 0)';
-		//let circleSmallCentreX = circleSmall.offsetLeft + circleSmall.offsetWidth / 2;
-		//let circleSmallCentreY = circleSmall.offsetTop + circleSmall.offsetHeight / 2;
+		let circleSmallCentreX = circleSmall.offsetLeft + circleSmall.offsetWidth / 2;
+		let circleSmallCentreY = circleSmall.offsetTop + circleSmall.offsetHeight / 2;
 
-		//let span = document.createElement('span');
-		//circleSmall.appendChild(span);
-		circleSmall.innerHTML = i;
+		let span = document.createElement('span');
+		circleSmall.appendChild(span);
+		span.innerHTML = i;
+		span.style.fontSize = miniSize * 0.9 + 'px';
+		span.style.position = 'absolute';
+		let spanCentreX = span.offsetLeft + span.offsetWidth / 2;
+		let spanCentreY = span.offsetTop + span.offsetHeight / 2;
+		span.style.top = circleSmallCentreY - spanCentreY + 'px';
+		span.style.left = circleSmallCentreX - spanCentreX + 'px';
+
 
 		circleSmall.style.left = Math.round(circleBigCentreX - circleBigCentreX + radius - (miniSize / 2)) + ((radius - miniSize / 2) * (Math.sin(angle))) + 'px';//Math.round(circleBigCentreX - circleBigCentreX + radius - (miniSize / 2)) + 'px';
 		circleSmall.style.top = Math.round(circleBigCentreY - circleBigCentreY + radius - (miniSize / 2)) + ((radius - miniSize / 2) * -(Math.cos(angle))) + 'px';//Math.round(circleBigCentreY - circleBigCentreY + (miniSize / 2)) + 'px';
@@ -103,7 +109,7 @@ function addClock() {
 	digitalClock.setAttribute('id', 'clock');
 	digitalClock.style.textAlign = 'center';
 	digitalClock.style.marginTop = '25%';
-	digitalClock.style.fontSize = 'x-large';
+	digitalClock.style.fontSize = miniSize * 0.9 + 'px';
 
 	window.setInterval(updateTime, 0);
 	function updateTime() {
