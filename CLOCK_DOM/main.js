@@ -8,6 +8,7 @@ function addClock() {
 	let mainSize = diam;
 	let miniSize = diam * 0.1;
 	let radius = diam / 2;
+	
 
 	if (diam < 200 || diam > 800) {
 		alert('alarm');
@@ -58,7 +59,6 @@ function addClock() {
 		circleSmall.style.top = Math.round(circleBigCentreY - circleBigCentreY + radius - (miniSize / 2)) + ((radius - miniSize / 2) * -(Math.cos(angle))) + 'px';//Math.round(circleBigCentreY - circleBigCentreY + (miniSize / 2)) + 'px';
 
 		angle += delta;
-
 	}
 
 	let secondHand = document.createElement('div');
@@ -113,26 +113,29 @@ function addClock() {
 	digitalClock.setAttribute('id', 'clock');
 	digitalClock.style.textAlign = 'center';
 	digitalClock.style.marginTop = '25%';
-	digitalClock.style.fontSize = miniSize * 0.9 + 'px';
+   digitalClock.style.fontSize = miniSize * 0.9 + 'px';
+  
 
 	function TTT() {
 		let d = new Date();
-		let dg = 6;
-		let hour = d.getHours() * 30;
+		let dg = 360 / 60;
+		let hdg = 360 / hours;			
+		
+		let hour = d.getHours() * hdg;
 		let min = d.getMinutes() * dg;
 		let sec = d.getSeconds() * dg;
 
-		hourHand.style.transform = `rotate(${hour}deg)`;
+		hourHand.style.transform = `rotate(${ (hour) + (min/hours) }deg)`;
 		minuteHand.style.transform = `rotate(${min}deg)`;
 		secondHand.style.transform = `rotate(${sec}deg)`;
+
+		document.getElementById('clock').innerHTML = d.toLocaleTimeString();
+		console.log(d);
+
+		setTimeout(TTT, 1000 - d.getMilliseconds());
 	};
 
-	window.setInterval(updateTime, 0);
-	function updateTime() {
-		let t = new Date();
-		document.getElementById('clock').innerHTML = t.toLocaleTimeString();
-		TTT();
-	};
+	TTT();
 
 	let btn = document.getElementById('btn');
 	btn.style.display = 'none';
@@ -140,3 +143,7 @@ function addClock() {
 	let sz = document.getElementById('size clock');
 	sz.style.display = 'none';
 }
+
+
+
+
