@@ -5,6 +5,7 @@ let fieldH = 300;
 let ballW = 20;
 let ballH = 20;
 
+
 function TTT() {
   let inp = document.createElement("input");
   document.body.appendChild(inp);
@@ -12,117 +13,160 @@ function TTT() {
   inp.value = "Старт!";
   inp.addEventListener("click", start, true);
 
-    let field = document.createElement("div");
-    document.body.appendChild(field);
-    field.style.width = fieldW + "px";
-    field.style.height = fieldH + "px";
-    field.style.backgroundColor = "#f0f056";
-    field.style.border = "solid 1px black";
-    field.style.position = "relative";
-    //field.style.left = "0";
-    //field.style.top = "0";
-    let fieldCentreX = field.offsetLeft + field.offsetWidth / 2;
-    let fieldCentreY = field.offsetTop + field.offsetHeight / 2;
+  let field = document.createElement("div");
+  document.body.appendChild(field);
+  field.style.width = fieldW + "px";
+  field.style.height = fieldH + "px";
+  field.style.backgroundColor = "#f0f056";
+  field.style.border = "solid 1px black";
+  field.style.position = "relative";
+  let fieldCentreX = field.offsetLeft + field.offsetWidth / 2;
+  let fieldCentreY = field.offsetTop + field.offsetHeight / 2;
 
-    let ball = document.createElement("div");
-    field.appendChild(ball);
-    ball.style.borderRadius = "50%";
-    ball.style.width = ballW + "px";
-    ball.style.height = ballH + "px";
-    ball.style.backgroundColor = "red";
-    ball.style.position = "absolute";
-    ball.style.zIndex = "3";
-    let ballCentreX = ball.offsetLeft + ball.offsetWidth / 2;
-    let ballCentreY = ball.offsetTop + ball.offsetHeight / 2;
-    let ballPosX = fieldW / 2 - ballW / 2;
-    let ballPosY = fieldH / 2 - ballH / 2;
-    ball.style.top = ballPosY + "px";
-    ball.style.left = ballPosX + "px";
-    //let ballSpeedY = 1;
+  let ball = document.createElement("div");
+  field.appendChild(ball);
+  ball.style.borderRadius = "50%";
+  ball.style.width = ballW + "px";
+  ball.style.height = ballH + "px";
+  ball.style.backgroundColor = "red";
+  ball.style.position = "absolute";
+  //let ballX = ball.offsetLeft + ball.offsetWidth;
+  //let ballY = ball.offsetTop + ball.offsetHeight / 2;
+  let ballPosX = fieldW / 2 - ballW / 2;
+  let ballPosY = fieldH / 2 - ballH / 2;
+  ball.style.top = ballPosY + "px";
+  ball.style.left = ballPosX + "px";
 
-    let leftRaquette = document.createElement("div");
-    field.appendChild(leftRaquette);
-    leftRaquette.style.width = fieldW * 0.015 + "px";
-    leftRaquette.style.height = fieldH * 0.3 + "px";
-    leftRaquette.style.backgroundColor = "green";
-    leftRaquette.style.position = "absolute";
-    leftRaquette.style.zIndex = "0";
-    leftRaquette.style.border = "solid 1px black";
+  let leftRaquette = document.createElement("div");
+  field.appendChild(leftRaquette);
+  let leftRaquetteW = fieldW * 0.015;
+  let leftRaquetteH = fieldH / 3;
+  leftRaquette.style.width = leftRaquetteW + "px";
+  leftRaquette.style.height = leftRaquetteH + "px";
+  leftRaquette.style.backgroundColor = "green";
+  leftRaquette.style.position = "absolute";
+  leftRaquette.style.border = "solid 1px black";
+  let leftRaquetteTop = leftRaquetteH * 1.5 - leftRaquetteH / 2;
+  leftRaquette.style.top = leftRaquetteTop + "px";
 
-    let rightRaquette = document.createElement("div");
-    field.appendChild(rightRaquette);
-    let rightRaquetteW = fieldW * 0.015;
-    let rightRaquetteH = fieldH * 0.4;
-    rightRaquette.style.width = rightRaquetteW + "px";
-    rightRaquette.style.height = rightRaquetteH + "px";
-    rightRaquette.style.backgroundColor = "blue";
-    rightRaquette.style.position = "absolute";
-    rightRaquette.style.zIndex = "0";
-    rightRaquette.style.right = "0";
-    rightRaquette.style.border = "solid 1px black";
-    let rightRaquetteTop = fieldH / 2 - rightRaquetteH / 2;
-    rightRaquette.style.top = rightRaquetteTop + "px";
-    let rightRaquetteRight = 0 + "px";
+  let rightRaquette = document.createElement("div");
+  field.appendChild(rightRaquette);
+  let rightRaquetteW = fieldW * 0.015;
+  let rightRaquetteH = fieldH / 3;
+  rightRaquette.style.width = rightRaquetteW + "px";
+  rightRaquette.style.height = rightRaquetteH + "px";
+  rightRaquette.style.backgroundColor = "blue";
+  rightRaquette.style.position = "absolute";
+  rightRaquette.style.right = "0";
+  rightRaquette.style.border = "solid 1px black";
+  let rightRaquetteTop = rightRaquetteH * 1.5 - rightRaquetteH / 2;
+  rightRaquette.style.top = rightRaquetteTop + "px";
+  let rightRaquetteRight = 0 + "px";
 
-    function start() {
-      setInterval(tick, 40);
+  window.addEventListener("keydown", ggg, false);
+
+  function ggg(eo) {
+    eo = eo || window.event;
+
+    if (eo.code == "ShiftLeft") {
+      let raquetteSpeed = 2;
+      leftRaquetteTop += -raquetteSpeed;
+      leftRaquette.style.top = leftRaquetteTop + "px";
     }
 
-    function tick() {
-      ballPosX += ballSpeedX / 5;
-      ball.style.left = ballPosX + "px";
+    if (eo.code == "ControlLeft") {
+      let raquetteSpeed = 2;
+      leftRaquetteTop += raquetteSpeed;
+      leftRaquette.style.top = leftRaquetteTop + "px";
+    }
 
-      //*гол справа
-      if (ballPosX + ballW > fieldW) {
-        ballSpeedX = 0;
-        ballSpeedY = 0;
-        ballPosX = fieldW - ballW;
-        ball.style.left = ballPosX + "px";
-      }
-      //*гол слева
-      if (ballPosX < 0) {
-        ballSpeedX = 0;
-        ballSpeedY = 0;
-        ballPosX = 0;
-        ball.style.left = ballPosX + "px";
-      }
+    if (leftRaquetteTop < 0) {
+      leftRaquetteTop = 0;
+      leftRaquette.style.top = leftRaquetteTop + "px";
+    }
 
-      ballPosY += ballSpeedY;
-      ball.style.top = ballPosY + "px";
+    if (leftRaquetteTop + leftRaquetteH > fieldH) {
+      leftRaquetteTop = fieldH - leftRaquetteH;
+      leftRaquette.style.top = leftRaquetteTop + "px";
+    }
 
-      //* вылетел ли мяч ниже пола?
-      if (ballPosY + ballH > fieldH) {
-        ballSpeedY = -ballSpeedY;
-        ballPosY = fieldH - ballH;
-        ball.style.top = ballPosY + "px";
-      }
-      //* вылетел ли мяч выше потолка?
-      if (ballPosY < 0) {
-        ballSpeedY = -ballSpeedY;
-        ballH.posY = 0;
-        ball.style.top = ballPosY + "px";
-      }
+    if (eo.code == "ArrowUp") {
+      let raquetteSpeed = 2;
+      rightRaquetteTop += -raquetteSpeed;
+      rightRaquette.style.top = rightRaquetteTop + "px";
+    }
 
-      let raquetteSpeed = 0;
+    if (eo.code == "ArrowDown") {
+      let raquetteSpeed = 2;
       rightRaquetteTop += raquetteSpeed;
       rightRaquette.style.top = rightRaquetteTop + "px";
+    }
 
-      window.addEventListener("keypress", ggg, false);
-      function ggg(eo) {
-        eo = eo || window.event;
-        if (eo.key == "ArrowDown") {
-          console.log("fff");
-          raquetteSpeed = 2;
-          rightRaquette.style.top = rightRaquetteTop + "px";
-        }
-        if (eo.key == "ArrowUp") {
-          console.log("ddd");
-          raquetteSpeed = -2;
-          rightRaquette.style.top = rightRaquetteTop + "px";
-        }
-      }
-    }  
+    if (rightRaquetteTop < 0) {
+      rightRaquetteTop = 0;
+      rightRaquette.style.top = rightRaquetteTop + "px";
+    }
+
+    if (rightRaquetteTop + rightRaquetteH > fieldH) {
+      rightRaquetteTop = fieldH - rightRaquetteH;
+      rightRaquette.style.top = rightRaquetteTop + "px";
+    }
+  }
 	
+  //let ballX = ball.offsetLeft + ball.offsetWidth;
+  //let ballY = ball.offsetTop + ball.offsetHeight / 2;
+
+  /* function location() {
+    ball.style.top = ballPosY + "px";
+    ball.style.left = ballPosX + "px";
+
+    leftRaquette.style.top = leftRaquetteTop + "px";
+
+    rightRaquette.style.top = rightRaquetteTop + "px";
+  }
+  location();*/
+
+  function start() {
+    setInterval(tick, 40);
+  }
+
+  function tick() {
+    ballPosX += ballSpeedX / 5;
+    ball.style.left = ballPosX + "px";
+
+    //*гол справа
+    if (ballPosX + ballW > fieldW) {
+      ballSpeedX = 0;
+      ballSpeedY = 0;
+      ballPosX = fieldW - ballW;
+      ball.style.left = ballPosX + "px";
+    }
+
+    //*гол слева
+    if (ballPosX < 0) {
+      ballSpeedX = 0;
+      ballSpeedY = 0;
+      ballPosX = 0;
+      ball.style.left = ballPosX + "px";
+    }
+
+    ballPosY += ballSpeedY;
+    ball.style.top = ballPosY + "px";
+
+    //* вылетел ли мяч ниже пола?
+    if (ballPosY + ballH > fieldH) {
+      ballSpeedY = -ballSpeedY;
+      ballPosY = fieldH - ballH;
+      ball.style.top = ballPosY + "px";
+    }
+    //* вылетел ли мяч выше потолка?
+    if (ballPosY < 0) {
+      ballSpeedY = -ballSpeedY;
+      ballH.posY = 0;
+      ball.style.top = ballPosY + "px";
+    }
+    ggg();
+  }
 }
 
 TTT();
