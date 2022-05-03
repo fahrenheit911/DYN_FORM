@@ -86,32 +86,12 @@ function TTT() {
         raquetteSpeedLeft = -2;
       }
 
-      if (leftRaquetteTop < 0) {
-        leftRaquetteTop = 0;
-        leftRaquette.style.top = leftRaquetteTop + "px";
-      }
-
-      if (leftRaquetteTop + leftRaquetteH > fieldH) {
-        leftRaquetteTop = fieldH - leftRaquetteH;
-        leftRaquette.style.top = leftRaquetteTop + "px";
-      }
-
       if (eo.code == "ArrowUp") {
         raquetteSpeedRight = 2;
       }
 
       if (eo.code == "ArrowDown") {
         raquetteSpeedRight = -2;
-      }
-
-      if (rightRaquetteTop < 0) {
-        rightRaquetteTop = 0;
-        rightRaquette.style.top = rightRaquetteTop + "px";
-      }
-
-      if (rightRaquetteTop + rightRaquetteH > fieldH) {
-        rightRaquetteTop = fieldH - rightRaquetteH;
-        rightRaquette.style.top = rightRaquetteTop + "px";
       }
     },
     false
