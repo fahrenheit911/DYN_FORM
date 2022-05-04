@@ -1,11 +1,13 @@
-let ballSpeedX = 6;
-let ballSpeedY = 5;
+let ballSpeedX = 0;
+let ballSpeedY = 0;
 let fieldW = 500;
 let fieldH = 300;
 let ballW = 20;
 let ballH = 20;
 let raquetteSpeedLeft = 0;
 let raquetteSpeedRight = 0;
+let RaquetteW = fieldW * 0.015;
+let RaquetteH = fieldH / 3;
 
 function TTT() {
   let inp = document.createElement("input");
@@ -30,48 +32,51 @@ function TTT() {
   ball.style.height = ballH + "px";
   ball.style.backgroundColor = "red";
   ball.style.position = "absolute";
-  let ballX = ball.offsetLeft + ball.offsetWidth;
-  console.log(ballX);
+  let ballX = ball.offsetLeft;
   let ballY = ball.offsetTop + ball.offsetHeight / 2;
-  console.log(ballY);
   let ballPosX = fieldW / 2 - ballW / 2;
   let ballPosY = fieldH / 2 - ballH / 2;
   ball.style.top = ballPosY + "px";
   ball.style.left = ballPosX + "px";
+  console.log(ballPosX);
 
   let leftRaquette = document.createElement("div");
   field.appendChild(leftRaquette);
-  let leftRaquetteW = fieldW * 0.015;
-  let leftRaquetteH = fieldH / 3;
-  leftRaquette.style.width = leftRaquetteW + "px";
-  leftRaquette.style.height = leftRaquetteH + "px";
+  leftRaquette.style.width = RaquetteW + "px";
+  leftRaquette.style.height = RaquetteH + "px";
   leftRaquette.style.backgroundColor = "green";
   leftRaquette.style.position = "absolute";
   leftRaquette.style.border = "solid 1px black";
-  let leftRaquetteTop = leftRaquetteH * 1.5 - leftRaquetteH / 2;
+  let leftRaquetteTop = RaquetteH;
   leftRaquette.style.top = leftRaquetteTop + "px";
+  let RaquetteY = leftRaquette.offsetTop;
 
   let rightRaquette = document.createElement("div");
   field.appendChild(rightRaquette);
-  let rightRaquetteW = fieldW * 0.015;
-  let rightRaquetteH = fieldH / 3;
-  rightRaquette.style.width = rightRaquetteW + "px";
-  rightRaquette.style.height = rightRaquetteH + "px";
+
+  rightRaquette.style.width = RaquetteW + "px";
+  rightRaquette.style.height = RaquetteH + "px";
   rightRaquette.style.backgroundColor = "blue";
   rightRaquette.style.position = "absolute";
   rightRaquette.style.right = "0";
   rightRaquette.style.border = "solid 1px black";
-  let rightRaquetteTop = rightRaquetteH * 1.5 - rightRaquetteH / 2;
+  let rightRaquetteTop = RaquetteH * 1.5 - RaquetteH / 2;
   rightRaquette.style.top = rightRaquetteTop + "px";
   let rightRaquetteRight = 0 + "px";
 
   inp.addEventListener(
     "click",
     function () {
-      setInterval(tick, 40);
+      ballSpeedX = 4;
+      ballSpeedY = 0;
     },
     false
   );
+
+  function timer() {
+    setInterval(tick, 40);
+  }
+  timer();
 
   window.addEventListener(
     "keydown",
@@ -79,19 +84,19 @@ function TTT() {
       eo = eo || window.event;
 
       if (eo.code == "ShiftLeft") {
-        raquetteSpeedLeft = 2;
+        raquetteSpeedLeft = 3;
       }
 
       if (eo.code == "ControlLeft") {
-        raquetteSpeedLeft = -2;
+        raquetteSpeedLeft = -3;
       }
 
       if (eo.code == "ArrowUp") {
-        raquetteSpeedRight = 2;
+        raquetteSpeedRight = 3;
       }
 
       if (eo.code == "ArrowDown") {
-        raquetteSpeedRight = -2;
+        raquetteSpeedRight = -3;
       }
     },
     false
@@ -101,8 +106,14 @@ function TTT() {
     "keyup",
     function (eo) {
       eo = eo || window.event;
-      raquetteSpeedLeft = 0;
-      raquetteSpeedRight = 0;
+
+      if (eo.code == "ShiftLeft" || eo.code == "ControlLeft") {
+        raquetteSpeedLeft = 0;
+      }
+
+      if (eo.code == "ArrowUp" || eo.code == "ArrowDown") {
+        raquetteSpeedRight = 0;
+      }
     },
     false
   );
@@ -116,8 +127,8 @@ function TTT() {
       leftRaquette.style.top = leftRaquetteTop + "px";
     }
 
-    if (leftRaquetteTop + leftRaquetteH > fieldH) {
-      leftRaquetteTop = fieldH - leftRaquetteH;
+    if (leftRaquetteTop + RaquetteH > fieldH) {
+      leftRaquetteTop = fieldH - RaquetteH;
       leftRaquette.style.top = leftRaquetteTop + "px";
     }
 
@@ -129,14 +140,14 @@ function TTT() {
       rightRaquette.style.top = rightRaquetteTop + "px";
     }
 
-    if (rightRaquetteTop + rightRaquetteH > fieldH) {
-      rightRaquetteTop = fieldH - rightRaquetteH;
+    if (rightRaquetteTop + RaquetteH > fieldH) {
+      rightRaquetteTop = fieldH - RaquetteH;
       rightRaquette.style.top = rightRaquetteTop + "px";
     }
   }
 
   function tick() {
-    ballPosX += ballSpeedX / 1;
+    ballPosX += ballSpeedX / -1;
     ball.style.left = ballPosX + "px";
 
     //*гол справа
@@ -148,7 +159,16 @@ function TTT() {
     }
 
     //*гол слева
-    if (ballPosX < 0) {
+    if (
+      ballY >= RaquetteY &&
+      ballY <= RaquetteY + RaquetteH &&
+      ballX <= RaquetteW
+    ) {
+      ballSpeedX = -ballSpeedX;
+      ballSpeedY = -ballSpeedY;
+      ballPosX = RaquetteW;
+      ball.style.left = ballPosX + "px";
+    } else if (ballPosX < 0) {
       ballSpeedX = 0;
       ballSpeedY = 0;
       ballPosX = 0;
@@ -167,11 +187,27 @@ function TTT() {
     //* вылетел ли мяч выше потолка?
     if (ballPosY < 0) {
       ballSpeedY = -ballSpeedY;
-      ballH.posY = 0;
+      ballPosY = 0;
       ball.style.top = ballPosY + "px";
     }
-    moveRaquette();
+
+    if (
+      ballY >= RaquetteY &&
+      ballY <= RaquetteY + RaquetteH &&
+      ballX <= RaquetteW
+    ) {
+      ballSpeedX = -ballSpeedX;
+      ballSpeedY = -ballSpeedY;
+      ballPosX = RaquetteW;
+      ball.style.left = ballPosX + "px";
+    } else if (ballPosX < 0) {
+      ballSpeedX = 0;
+      ballSpeedY = 0;
+      ballPosX = 0;
+      ball.style.left = ballPosX + "px";
+    }
   }
+  moveRaquette();
 }
 
 TTT();
