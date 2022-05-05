@@ -9,6 +9,7 @@ let raquetteSpeedRight = 0;
 let RaquetteW = fieldW * 0.015;
 let RaquetteH = fieldH / 3;
 
+
 function TTT() {
   let inp = document.createElement("input");
   document.body.appendChild(inp);
@@ -33,12 +34,23 @@ function TTT() {
   ball.style.backgroundColor = "red";
   ball.style.position = "absolute";
   let ballX = ball.offsetLeft;
-  let ballY = ball.offsetTop + ball.offsetHeight / 2;
-  let ballPosX = fieldW / 2 - ballW / 2;
-  let ballPosY = fieldH / 2 - ballH / 2;
-  ball.style.top = ballPosY + "px";
-  ball.style.left = ballPosX + "px";
-  console.log(ballPosX);
+  let ballY = ball.offsetTop;
+  //let ballPosX = fieldW / 2 - ballW / 2;
+  //let ballPosY = fieldH / 2 - ballH / 2;
+  ball.style.top = ballY + fieldH / 2 - ballH / 2 + "px";
+  ball.style.left = ballX + fieldW / 2 - ballW / 2 + "px";
+
+  console.log("ballX: " + ballX);
+  console.log("ballY: " + ballY);
+
+  console.log(
+    "стартовая позиция мяча X: " +
+      (ball.style.left = ballX + fieldW / 2 - ballW / 2 + "px")
+  );
+  console.log(
+    "стартовая позиция мяча Y: " +
+      (ball.style.top = ballY + fieldH / 2 - ballH / 2 + "px")
+  );
 
   let leftRaquette = document.createElement("div");
   field.appendChild(leftRaquette);
@@ -49,11 +61,11 @@ function TTT() {
   leftRaquette.style.border = "solid 1px black";
   let leftRaquetteTop = RaquetteH;
   leftRaquette.style.top = leftRaquetteTop + "px";
-  let RaquetteY = leftRaquette.offsetTop;
+  let leftRaquetteY = leftRaquette.offsetTop - RaquetteH;
+  let leftRaquetteX = leftRaquette.offsetLeft;
 
   let rightRaquette = document.createElement("div");
   field.appendChild(rightRaquette);
-
   rightRaquette.style.width = RaquetteW + "px";
   rightRaquette.style.height = RaquetteH + "px";
   rightRaquette.style.backgroundColor = "blue";
@@ -67,8 +79,8 @@ function TTT() {
   inp.addEventListener(
     "click",
     function () {
-      ballSpeedX = 4;
-      ballSpeedY = 0;
+      ballSpeedX = -6;
+      ballSpeedY = 4;
     },
     false
   );
@@ -147,67 +159,53 @@ function TTT() {
   }
 
   function tick() {
-    ballPosX += ballSpeedX / -1;
-    ball.style.left = ballPosX + "px";
+    ballX += ballSpeedX / 2;
+    ball.style.left = ballX + "px";
 
     //*гол справа
-    if (ballPosX + ballW > fieldW) {
+    if (ballX + ballW > fieldW) {
       ballSpeedX = 0;
       ballSpeedY = 0;
-      ballPosX = fieldW - ballW;
-      ball.style.left = ballPosX + "px";
+      //ballPosX = fieldW - ballW;
+      ball.style.left = fieldW - ballW + "px";
     }
 
     //*гол слева
+    if (ballX < 0) {
+      ballSpeedX = 0;
+      ballSpeedY = 0;
+      ballX = 0;
+      ball.style.left = 0;
+    }
+
     if (
-      ballY >= RaquetteY &&
-      ballY <= RaquetteY + RaquetteH &&
+      ballY + ballW / 2 >= leftRaquetteY &&
+      ballY + ballW / 2 <= leftRaquetteY + RaquetteH &&
       ballX <= RaquetteW
     ) {
       ballSpeedX = -ballSpeedX;
-      ballSpeedY = -ballSpeedY;
-      ballPosX = RaquetteW;
-      ball.style.left = ballPosX + "px";
-    } else if (ballPosX < 0) {
-      ballSpeedX = 0;
-      ballSpeedY = 0;
-      ballPosX = 0;
-      ball.style.left = ballPosX + "px";
+      //ballPosX = RaquetteW;
+      //ball.style.left = ballPosX + "px";
     }
 
-    ballPosY += ballSpeedY;
-    ball.style.top = ballPosY + "px";
+    ballY += ballSpeedY;
+    ball.style.top = ballY + "px";
 
     //* вылетел ли мяч ниже пола?
-    if (ballPosY + ballH > fieldH) {
+    if (ballY + ballH > fieldH) {
       ballSpeedY = -ballSpeedY;
-      ballPosY = fieldH - ballH;
-      ball.style.top = ballPosY + "px";
+      //ballPosY = fieldH - ballH;
+      ball.style.top = fieldH - ballH + "px";
     }
     //* вылетел ли мяч выше потолка?
-    if (ballPosY < 0) {
+    if (ballY < 0) {
       ballSpeedY = -ballSpeedY;
-      ballPosY = 0;
-      ball.style.top = ballPosY + "px";
+      ballY = 0;
+      ball.style.top = 0;
     }
 
-    if (
-      ballY >= RaquetteY &&
-      ballY <= RaquetteY + RaquetteH &&
-      ballX <= RaquetteW
-    ) {
-      ballSpeedX = -ballSpeedX;
-      ballSpeedY = -ballSpeedY;
-      ballPosX = RaquetteW;
-      ball.style.left = ballPosX + "px";
-    } else if (ballPosX < 0) {
-      ballSpeedX = 0;
-      ballSpeedY = 0;
-      ballPosX = 0;
-      ball.style.left = ballPosX + "px";
-    }
+    moveRaquette();
   }
-  moveRaquette();
 }
 
 TTT();
