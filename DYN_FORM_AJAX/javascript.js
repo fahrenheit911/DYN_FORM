@@ -1,21 +1,32 @@
-function testLoadData() {
-  $.ajax("https://fe.it-academy.by/Examples/dyn_form_ajax/formDef1.json", {
-    type: "GET",
-    dataType: "json",
-    success: dataLoaded,
-    error: errorHandler,
-  });
+let form1 = "https://fe.it-academy.by/Examples/dyn_form_ajax/formDef1.json";
+let form2 = "https://fe.it-academy.by/Examples/dyn_form_ajax/formDef2.json";
 
-  $.ajax("https://fe.it-academy.by/Examples/dyn_form_ajax/formDef2.json", {
+let f1, f2;
+
+function testLoadData() {
+  $.ajax(form1, {
     type: "GET",
     dataType: "json",
     success: dataLoaded,
     error: errorHandler,
   });
 }
-
 function dataLoaded(data) {
-  makeForm(data);
+  f1 = data;
+
+  $.ajax(form2, {
+    type: "GET",
+    dataType: "json",
+    success: dataLoaded2,
+    error: errorHandler,
+  });
+}
+
+function dataLoaded2(data) {
+  f2 = data;
+
+  makeForm(f1);
+  makeForm(f2);
 }
 
 function errorHandler(jqXHR, statusStr, errorStr) {
